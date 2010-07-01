@@ -1,0 +1,7 @@
+
+config 'mesh' 'bat0'
+	option 'interfaces' 'wlan0'
+	option 'orig_interval'
+	option 'log_level'
+	option 'aggregate_ogm'
+	option 'vis_mode'
