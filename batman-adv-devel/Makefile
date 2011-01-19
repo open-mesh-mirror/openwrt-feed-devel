@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_REV:=1787
+PKG_REV:=1902
 
 PKG_VERSION:=r$(PKG_REV)
 PKG_SOURCE_PROTO:=svn
@@ -28,8 +28,8 @@ define KernelPackage/batman-adv-devel
   URL:=http://www.open-mesh.org/
   MAINTAINER:=Marek Lindner <lindner_marek@yahoo.de>
   SUBMENU:=Network Support
-  DEPENDS:=@LINUX_2_6
-  TITLE:=B.A.T.M.A.N. Adv
+  DEPENDS:=@!LINUX_2_4
+  TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/batman-adv/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
 endef
