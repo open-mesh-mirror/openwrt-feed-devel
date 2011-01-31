@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_REV:=1902
+PKG_REV:=1928
 
 PKG_VERSION:=r$(PKG_REV)
 PKG_SOURCE_PROTO:=svn
