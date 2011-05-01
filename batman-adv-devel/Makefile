@@ -10,8 +10,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BATMAN_REV:=ffe432976aeb189d5721fc5d6dddc7340e8cf5b7
-PKG_BATCTL_REV:=16692bd9341f49d7c2f27ee6e3074d62f53df71e
+PKG_BATMAN_REV:=89079aec4c0c2c60a3a2561afcce62538cebd71d
+PKG_BATCTL_REV:=81bc72889b76209550b8e88a556ae48dc3b868d3
 
 PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
@@ -79,13 +79,19 @@ endef
 $(eval $(call Download,batctl))
 
 EXTRACT_BATCTL = tar xzf "$(DL_DIR)/$(PKG_BATCTL_FNAME)" -C "$(BUILD_DIR)/$(PKG_NAME)"
+PATCH_BATCTL = $(PATCH) "$(PKG_BATCTL_BUILD_DIR)" "$(PATCH_DIR)" "*batctl*"
 BUILD_BATCTL = $(MAKE) -C $(PKG_BATCTL_BUILD_DIR) $(MAKE_BATCTL_ARGS)
 endif
+
+define Build/Patch
+	$(PATCH) "$(PKG_BUILD_DIR)" "$(PATCH_DIR)" "*batman*"
+	$(EXTRACT_BATCTL)
+	$(PATCH_BATCTL)
+endef
 
 define Build/Compile
 	cp $(PKG_BUILD_DIR)/Makefile.kbuild $(PKG_BUILD_DIR)/Makefile
 	$(MAKE) -C "$(LINUX_DIR)" $(MAKE_BATMAN_ADV_ARGS)
-	$(EXTRACT_BATCTL)
 	$(BUILD_BATCTL)
 endef
 
