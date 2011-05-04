@@ -79,12 +79,20 @@ endef
 $(eval $(call Download,batctl))
 
 EXTRACT_BATCTL = tar xzf "$(DL_DIR)/$(PKG_BATCTL_FNAME)" -C "$(BUILD_DIR)/$(PKG_NAME)"
-PATCH_BATCTL = $(PATCH) "$(PKG_BATCTL_BUILD_DIR)" "$(PATCH_DIR)" "*batctl*"
+PATCH_BATCTL = $(call Build/DoPatch,"$(PKG_BATCTL_BUILD_DIR)","$(PATCH_DIR)","*batctl*")
 BUILD_BATCTL = $(MAKE) -C $(PKG_BATCTL_BUILD_DIR) $(MAKE_BATCTL_ARGS)
 endif
 
+define Build/DoPatch
+	@if [ -d "$(2)" ]; then \
+		if [ "$$$$(ls $(2) | grep -Ec $(3))" -gt 0 ]; then \
+			$(PATCH) "$(1)" "$(2)" "$(3)"; \
+		fi; \
+	fi
+endef
+
 define Build/Patch
-	$(PATCH) "$(PKG_BUILD_DIR)" "$(PATCH_DIR)" "*batman*"
+	$(call Build/DoPatch,"$(PKG_BUILD_DIR)","$(PATCH_DIR)","*batman*")
 	$(EXTRACT_BATCTL)
 	$(PATCH_BATCTL)
 endef
