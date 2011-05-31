@@ -10,8 +10,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BATMAN_REV:=89079aec4c0c2c60a3a2561afcce62538cebd71d
-PKG_BATCTL_REV:=81bc72889b76209550b8e88a556ae48dc3b868d3
+PKG_BATMAN_REV:=7bad46397eff76871c05fa219a95e00fc0b6ee3f
+PKG_BATCTL_REV:=c6ed60c0f6fd9ba1a61693b4ddf2988487a21fcb
 
 PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
@@ -37,6 +37,7 @@ define KernelPackage/batman-adv-devel
   TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
+  $(call AddDepends/crc16)
 endef
 
 define KernelPackage/batman-adv-devel/description
@@ -67,7 +68,7 @@ MAKE_BATCTL_ARGS += \
 	CC="$(TARGET_CC)" \
 	NODEBUG=1 \
 	UNAME="Linux" \
-	INSTALL_PREFIX="$(PKG_INSTALL_DIR)" \
+	DESTDIR="$(PKG_INSTALL_DIR)" \
 	STRIP="/bin/true" \
 	batctl install
 
@@ -113,7 +114,7 @@ define KernelPackage/batman-adv-devel/install
 	$(INSTALL_BIN) ./files/etc/init.d/batman-adv $(1)/etc/init.d
 	$(INSTALL_DATA) ./files/etc/config/batman-adv $(1)/etc/config
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/batctl $(1)/usr/sbin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/sbin/batctl $(1)/usr/sbin/
 endef
 else
 define KernelPackage/batman-adv-devel/install
