@@ -10,8 +10,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BATMAN_REV:=7bad46397eff76871c05fa219a95e00fc0b6ee3f
-PKG_BATCTL_REV:=c6ed60c0f6fd9ba1a61693b4ddf2988487a21fcb
+PKG_BATMAN_REV:=8c1fb2c2aa1ed1f5fa67a7d3459a9b6428aa337f
+PKG_BATCTL_REV:=27b695b97cf0d6813e3e9951538186e15ad62068
 
 PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
@@ -33,11 +33,10 @@ define KernelPackage/batman-adv-devel
   URL:=http://www.open-mesh.org/
   MAINTAINER:=Marek Lindner <lindner_marek@yahoo.de>
   SUBMENU:=Network Support
-  DEPENDS:=@!LINUX_2_4
+  DEPENDS:=@!LINUX_2_4 +kmod-crc16
   TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
-  $(call AddDepends/crc16)
 endef
 
 define KernelPackage/batman-adv-devel/description
