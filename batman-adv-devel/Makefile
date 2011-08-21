@@ -10,8 +10,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BATMAN_REV:=8c1fb2c2aa1ed1f5fa67a7d3459a9b6428aa337f
-PKG_BATCTL_REV:=27b695b97cf0d6813e3e9951538186e15ad62068
+PKG_BATMAN_REV:=d5efe7cd4d42d141056c1dd6c6498d168fcf66b7
+PKG_BATCTL_REV:=0a284c579e26edc603f46f71684ee66f8bfc0a68
 
 PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
@@ -109,16 +109,18 @@ endef
 
 ifneq ($(DEVELOPER)$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATCTL),)
 define KernelPackage/batman-adv-devel/install
-	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d $(1)/lib/batman-adv
 	$(INSTALL_BIN) ./files/etc/init.d/batman-adv $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/lib/batman-adv/config.sh $(1)/lib/batman-adv
 	$(INSTALL_DATA) ./files/etc/config/batman-adv $(1)/etc/config
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/sbin/batctl $(1)/usr/sbin/
 endef
 else
 define KernelPackage/batman-adv-devel/install
-	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d $(1)/lib/batman-adv
 	$(INSTALL_BIN) ./files/etc/init.d/batman-adv $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/lib/batman-adv/config.sh $(1)/lib/batman-adv
 	$(INSTALL_DATA) ./files/etc/config/batman-adv $(1)/etc/config
 endef
 endif
