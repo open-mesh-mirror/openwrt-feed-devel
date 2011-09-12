@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BATMAN_REV:=d5efe7cd4d42d141056c1dd6c6498d168fcf66b7
+PKG_BATMAN_REV:=dc1c387049b06b4429b62289d2a8d76f1ada154b
 PKG_BATCTL_REV:=0a284c579e26edc603f46f71684ee66f8bfc0a68
 
 PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
@@ -83,10 +83,11 @@ PATCH_BATCTL = $(call Build/DoPatch,"$(PKG_BATCTL_BUILD_DIR)","$(PATCH_DIR)","*b
 BUILD_BATCTL = $(MAKE) -C $(PKG_BATCTL_BUILD_DIR) $(MAKE_BATCTL_ARGS)
 endif
 
+KPATCH ?= $(PATCH)
 define Build/DoPatch
 	@if [ -d "$(2)" ]; then \
 		if [ "$$$$(ls $(2) | grep -Ec $(3))" -gt 0 ]; then \
-			$(PATCH) "$(1)" "$(2)" "$(3)"; \
+			$(KPATCH) "$(1)" "$(2)" "$(3)"; \
 		fi; \
 	fi
 endef
