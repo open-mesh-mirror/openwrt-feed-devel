@@ -11,3 +11,29 @@ config KMOD_BATMAN_ADV_DEVEL_BATCTL
 	  batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
 	  It is an easier method for configuring batman-adv and
 	  provides some additional tools for debugging as well.
+
+choice
+        prompt "branch selection"
+	default KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
+        help
+                Select the branch to be built (if unsure leave default value).
+
+	config KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
+		bool "master"
+
+        config KMOD_BATMAN_ADV_DEVEL_BRANCH_BLA2
+                bool "bridge loop avoidance"
+
+        config KMOD_BATMAN_ADV_DEVEL_BRANCH_CATWOMAN
+                bool "network encoding (alias catwoman)"
+
+        config KMOD_BATMAN_ADV_DEVEL_BRANCH_DAT
+                bool "distributed arp table"
+endchoice
+
+config KMOD_BATMAN_ADV_DEVEL_BRANCH_NAME
+        string
+	default "master"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
+        default "bla2"		if KMOD_BATMAN_ADV_DEVEL_BRANCH_BLA2
+        default "catwoman"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_CATWOMAN
+        default "dat"		if KMOD_BATMAN_ADV_DEVEL_BRANCH_DAT
