@@ -2,7 +2,7 @@
 
 bat_config(){
 	local mesh="$1"
-	local aggregated_ogms bonding fragmentation gw_bandwidth gw_mode gw_sel_class log_level orig_interval vis_mode
+	local aggregated_ogms bonding fragmentation gw_bandwidth gw_mode gw_sel_class log_level orig_interval hop_penalty vis_mode
 
 	logger -st batman-adv "config_bat: mesh = $mesh"
 
@@ -14,9 +14,11 @@ bat_config(){
 	config_get gw_sel_class "$mesh" gw_sel_class
 	config_get log_level "$mesh" log_level
 	config_get orig_interval "$mesh" orig_interval
+	config_get hop_penalty "$mesh" hop_penalty
 	config_get vis_mode "$mesh" vis_mode
 
 	[ -n "$orig_interval" ] && echo $orig_interval > /sys/class/net/$mesh/mesh/orig_interval
+	[ -n "$hop_penalty" ] && echo $hop_penalty > /sys/class/net/$mesh/mesh/hop_penalty
 	[ -n "$log_level" ] && echo $log_level > /sys/class/net/$mesh/mesh/log_level 2>&-
 	[ -n "$aggregate_ogms" ] && echo $aggregate_ogms > /sys/class/net/$mesh/mesh/aggregate_ogms
 	[ -n "$bonding" ] && echo $bonding > /sys/class/net/$mesh/mesh/bonding
