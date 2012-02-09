@@ -4,8 +4,6 @@ bat_config(){
 	local mesh="$1"
 	local aggregated_ogms bonding fragmentation gw_bandwidth gw_mode gw_sel_class log_level orig_interval hop_penalty vis_mode
 
-	logger -st batman-adv "config_bat: mesh = $mesh"
-
 	config_get aggregated_ogms "$mesh" aggregated_ogms
 	config_get bonding "$mesh" bonding
 	config_get fragmentation "$mesh" fragmentation
@@ -36,14 +34,12 @@ bat_add_interface(){
 
 	sleep 3s # some device (ath) is very lazy to start
 	config_get interfaces $mesh interfaces
-	logger -st batman-adv "add_interface: mesh = $mesh, iface = $interface, ifaces = $interfaces"
 	for iface in $interfaces; do
 		[ -f "/sys/class/net/$iface/batman_adv/mesh_iface" ] || {
 			iface=$(uci -q -P/var/state get network.$iface.ifname)
 			[ -f "/sys/class/net/$iface/batman_adv/mesh_iface" ] || continue
 		}
 	
-		logger -st batman-adv "add_interface: $iface == $interface -> mesh = $mesh"
 		[ "$iface" = "$interface" ] && echo $mesh > /sys/class/net/$iface/batman_adv/mesh_iface
 	done
 }

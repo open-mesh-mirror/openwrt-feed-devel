@@ -3,6 +3,10 @@ config KMOD_BATMAN_ADV_DEVEL_DEBUG_LOG
 	bool "enable verbose debug logging"
 	depends PACKAGE_kmod-batman-adv-devel
 	default n
+config KMOD_BATMAN_ADV_DEVEL_BLA
+        bool "enable bridge loop avoidance"
+        depends PACKAGE_kmod-batman-adv-devel
+        default y
 config KMOD_BATMAN_ADV_DEVEL_BATCTL
 	bool "enable batctl"
 	depends PACKAGE_kmod-batman-adv-devel
@@ -21,8 +25,8 @@ choice
 	config KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
 		bool "master"
 
-        config KMOD_BATMAN_ADV_DEVEL_BRANCH_BLA2
-                bool "bridge loop avoidance"
+        config KMOD_BATMAN_ADV_DEVEL_BRANCH_BATMANV
+                bool "batman V routing algorithm"
 
         config KMOD_BATMAN_ADV_DEVEL_BRANCH_CATWOMAN
                 bool "network encoding (alias catwoman)"
@@ -34,6 +38,6 @@ endchoice
 config KMOD_BATMAN_ADV_DEVEL_BRANCH_NAME
         string
 	default "master"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
-        default "bla2"		if KMOD_BATMAN_ADV_DEVEL_BRANCH_BLA2
+        default "batmanv"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_BATMANV
         default "catwoman"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_CATWOMAN
         default "dat"		if KMOD_BATMAN_ADV_DEVEL_BRANCH_DAT
