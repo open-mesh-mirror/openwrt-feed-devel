@@ -4,9 +4,9 @@ config KMOD_BATMAN_ADV_DEVEL_DEBUG_LOG
 	depends PACKAGE_kmod-batman-adv-devel
 	default n
 config KMOD_BATMAN_ADV_DEVEL_BLA
-        bool "enable bridge loop avoidance"
-        depends PACKAGE_kmod-batman-adv-devel
-        default y
+	bool "enable bridge loop avoidance"
+	depends PACKAGE_kmod-batman-adv-devel
+	default y
 config KMOD_BATMAN_ADV_DEVEL_BATCTL
 	bool "enable batctl"
 	depends PACKAGE_kmod-batman-adv-devel
