@@ -12,32 +12,24 @@ config KMOD_BATMAN_ADV_DEVEL_BATCTL
 	depends PACKAGE_kmod-batman-adv-devel
 	default y
 	help
-	  batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
-	  It is an easier method for configuring batman-adv and
-	  provides some additional tools for debugging as well.
+		batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
+		It is an easier method for configuring batman-adv and
+		provides some additional tools for debugging as well.
 
-choice
-        prompt "branch selection"
-	default KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
-        help
-                Select the branch to be built (if unsure leave default value).
+config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
+	string
+	prompt "batman-adv git revision to build package with"
+	default "3fdeaa6"
+	help
+		Enter the full or shortened git revision to override package
+		default value. This allows to build from non-master branches
+		to test unreleased features.
 
-	config KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
-		bool "master"
-
-        config KMOD_BATMAN_ADV_DEVEL_BRANCH_BATMANV
-                bool "batman V routing algorithm"
-
-        config KMOD_BATMAN_ADV_DEVEL_BRANCH_CATWOMAN
-                bool "network encoding (alias catwoman)"
-
-        config KMOD_BATMAN_ADV_DEVEL_BRANCH_DAT
-                bool "distributed arp table"
-endchoice
-
-config KMOD_BATMAN_ADV_DEVEL_BRANCH_NAME
-        string
-	default "master"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_MASTER
-        default "batmanv"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_BATMANV
-        default "catwoman"	if KMOD_BATMAN_ADV_DEVEL_BRANCH_CATWOMAN
-        default "dat"		if KMOD_BATMAN_ADV_DEVEL_BRANCH_DAT
+config KMOD_BATMAN_ADV_DEVEL_BATCTL_REV
+	string
+	prompt "batctl git revision to build package with"
+	default "acd06db"
+	help
+		Enter the full or shortened git revision to override package
+		default value. This allows to build from non-master branches
+		to test unreleased features.
