@@ -33,7 +33,7 @@ define KernelPackage/batman-adv-devel
   URL:=http://www.open-mesh.org/
   MAINTAINER:=Marek Lindner <lindner_marek@yahoo.de>
   SUBMENU:=Network Support
-  DEPENDS:=+kmod-lib-crc16 +libc
+  DEPENDS:=+kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c +libc
   TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
@@ -60,6 +60,7 @@ MAKE_BATMAN_ADV_ARGS += \
 	LINUX_VERSION="$(LINUX_VERSION)" \
 	CONFIG_BATMAN_ADV_DEBUG=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_DEBUG_LOG),y,n) \
 	CONFIG_BATMAN_ADV_BLA=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_BLA),y,n) \
+	CONFIG_BATMAN_ADV_DAT=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_DAT),y,n) \
 	REVISION="$(PKG_BATMAN_SHORTREV)" all
 
 MAKE_BATCTL_ARGS += \

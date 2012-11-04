@@ -3,10 +3,17 @@ config KMOD_BATMAN_ADV_DEVEL_DEBUG_LOG
 	bool "enable verbose debug logging"
 	depends PACKAGE_kmod-batman-adv-devel
 	default n
+
 config KMOD_BATMAN_ADV_DEVEL_BLA
 	bool "enable bridge loop avoidance"
 	depends PACKAGE_kmod-batman-adv-devel
 	default y
+
+config KMOD_BATMAN_ADV_DEVEL_DAT
+	bool "enable distributed arp table"
+	depends PACKAGE_kmod-batman-adv-devel
+	default y
+
 config KMOD_BATMAN_ADV_DEVEL_BATCTL
 	bool "enable batctl"
 	depends PACKAGE_kmod-batman-adv-devel
@@ -19,7 +26,8 @@ config KMOD_BATMAN_ADV_DEVEL_BATCTL
 config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 	string
 	prompt "batman-adv git revision to build package with"
-	default "3fdeaa6"
+	depends PACKAGE_kmod-batman-adv-devel
+        default "59f8434"
 	help
 		Enter the full or shortened git revision to override package
 		default value. This allows to build from non-master branches
@@ -28,7 +36,8 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 config KMOD_BATMAN_ADV_DEVEL_BATCTL_REV
 	string
 	prompt "batctl git revision to build package with"
-	default "acd06db"
+	depends PACKAGE_kmod-batman-adv-devel
+        default "d81bf38"
 	help
 		Enter the full or shortened git revision to override package
 		default value. This allows to build from non-master branches

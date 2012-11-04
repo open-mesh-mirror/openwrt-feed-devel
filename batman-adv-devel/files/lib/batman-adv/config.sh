@@ -11,13 +11,14 @@ bat_load_module()
 bat_config()
 {
 	local mesh="$1"
-	local aggregated_ogms ap_isolation bonding bridge_loop_avoidance fragmentation gw_bandwidth
-	local gw_mode gw_sel_class hop_penalty log_level orig_interval vis_mode
+	local aggregated_ogms ap_isolation bonding bridge_loop_avoidance distributed_arp_table fragmentation
+	local gw_bandwidth gw_mode gw_sel_class hop_penalty log_level orig_interval vis_mode
 
 	config_get aggregated_ogms "$mesh" aggregated_ogms
 	config_get ap_isolation "$mesh" ap_isolation
 	config_get bonding "$mesh" bonding
 	config_get bridge_loop_avoidance "$mesh" bridge_loop_avoidance
+	config_get distributed_arp_table "$mesh" distributed_arp_table
 	config_get fragmentation "$mesh" fragmentation
 	config_get gw_bandwidth "$mesh" gw_bandwidth
 	config_get gw_mode "$mesh" gw_mode
@@ -33,6 +34,7 @@ bat_config()
 	[ -n "$ap_isolation" ] && echo $ap_isolation > /sys/class/net/$mesh/mesh/ap_isolation
 	[ -n "$bonding" ] && echo $bonding > /sys/class/net/$mesh/mesh/bonding
 	[ -n "$bridge_loop_avoidance" ] && echo $bridge_loop_avoidance > /sys/class/net/$mesh/mesh/bridge_loop_avoidance
+	[ -n "$distributed_arp_table" ] && echo $distributed_arp_table > /sys/class/net/$mesh/mesh/distributed_arp_table
 	[ -n "$fragmentation" ] && echo $fragmentation > /sys/class/net/$mesh/mesh/fragmentation
 	[ -n "$gw_bandwidth" ] && echo $gw_bandwidth > /sys/class/net/$mesh/mesh/gw_bandwidth
 	[ -n "$gw_mode" ] && echo $gw_mode > /sys/class/net/$mesh/mesh/gw_mode
