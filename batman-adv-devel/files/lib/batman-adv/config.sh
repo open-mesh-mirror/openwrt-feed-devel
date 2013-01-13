@@ -44,37 +44,3 @@ bat_config()
 	[ -n "$orig_interval" ] && echo $orig_interval > /sys/class/net/$mesh/mesh/orig_interval
 	[ -n "$vis_mode" ] && echo $vis_mode > /sys/class/net/$mesh/mesh/vis_mode
 }
-
-bat_add_interface()
-{
-	local mesh="$1"
-	local interface="$2"
-	local interfaces
-
-	config_get interfaces $mesh interfaces
-	for iface in $interfaces; do
-		[ -f "/sys/class/net/$iface/batman_adv/mesh_iface" ] || {
-			iface=$(uci -q -P/var/state get network.$iface.ifname)
-			[ -f "/sys/class/net/$iface/batman_adv/mesh_iface" ] || continue
-		}
-	
-		[ "$iface" = "$interface" ] && echo $mesh > /sys/class/net/$iface/batman_adv/mesh_iface
-	done
-}
-
-bat_del_interface()
-{
-	local mesh="$1"
-	local interface="$2"
-	local interfaces
-
-	config_get interfaces $mesh interfaces
-	for iface in $interfaces; do
-		[ -f "/sys/class/net/$iface/batman_adv/mesh_iface" ] || {
-			iface=$(uci -q -P/var/state get network.$iface.ifname)
-			[ -f "/sys/class/net/$iface/batman_adv/mesh_iface" ] || continue
-		}
-
-		[ "$iface" = "$interface" ] && echo none > /sys/class/net/$iface/batman_adv/mesh_iface
-	done
-}
