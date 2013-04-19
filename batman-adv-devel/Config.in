@@ -1,27 +1,27 @@
 
 config KMOD_BATMAN_ADV_DEVEL_DEBUG_LOG
 	bool "enable verbose debug logging"
-	depends PACKAGE_kmod-batman-adv-devel
+	depends on PACKAGE_kmod-batman-adv-devel
 	default n
 
 config KMOD_BATMAN_ADV_DEVEL_BLA
 	bool "enable bridge loop avoidance"
-	depends PACKAGE_kmod-batman-adv-devel
+	depends on PACKAGE_kmod-batman-adv-devel
 	default y
 
 config KMOD_BATMAN_ADV_DEVEL_DAT
 	bool "enable distributed arp table"
-	depends PACKAGE_kmod-batman-adv-devel
+	depends on PACKAGE_kmod-batman-adv-devel
 	default y
 
 config KMOD_BATMAN_ADV_DEVEL_NC
 	bool "enable network coding [requires promisc mode support]"
-	depends PACKAGE_kmod-batman-adv-devel
+	depends on PACKAGE_kmod-batman-adv-devel
 	default n
 
 config KMOD_BATMAN_ADV_DEVEL_BATCTL
 	bool "enable batctl"
-	depends PACKAGE_kmod-batman-adv-devel
+	depends on PACKAGE_kmod-batman-adv-devel
 	default y
 	help
 		batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
@@ -31,8 +31,8 @@ config KMOD_BATMAN_ADV_DEVEL_BATCTL
 config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 	string
 	prompt "batman-adv git revision to build package with"
-	depends PACKAGE_kmod-batman-adv-devel
-	default "0ca83ef"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default "90725dd"
 	help
 		Enter the full or shortened git revision to override package
 		default value. This allows to build from non-master branches
@@ -41,8 +41,8 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 config KMOD_BATMAN_ADV_DEVEL_BATCTL_REV
 	string
 	prompt "batctl git revision to build package with"
-	depends PACKAGE_kmod-batman-adv-devel
-	default "d079921"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default "fc04a78"
 	help
 		Enter the full or shortened git revision to override package
 		default value. This allows to build from non-master branches
