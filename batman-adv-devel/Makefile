@@ -64,6 +64,13 @@ MAKE_BATMAN_ADV_ARGS += \
 	CONFIG_BATMAN_ADV_NC=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_NC),y,n) \
 	REVISION="$(PKG_BATMAN_SHORTREV)" all
 
+# The linker can identify unused sections of a binary when each symbol is stored
+# in a separate section. This mostly removes unused linker sections and reduces
+# the size by ~3% on mipsel.
+
+TARGET_CFLAGS  += -ffunction-sections -fdata-sections
+TARGET_LDFLAGS += -Wl,--gc-sections
+
 MAKE_BATCTL_ENV += \
 	CPPFLAGS="$(TARGET_CPPFLAGS)" \
 	CFLAGS="$(TARGET_CFLAGS)" \
