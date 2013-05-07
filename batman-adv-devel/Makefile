@@ -71,6 +71,13 @@ MAKE_BATMAN_ADV_ARGS += \
 TARGET_CFLAGS  += -ffunction-sections -fdata-sections
 TARGET_LDFLAGS += -Wl,--gc-sections
 
+# Link-time optimization allows to move parts of the optimization from the single
+# source file to the global source view. This is done by emitting the GIMPLE
+# representation in each object file and analyzing it again during the link step.
+
+TARGET_CFLAGS  += -flto
+TARGET_LDFLAGS += -fuse-linker-plugin
+
 MAKE_BATCTL_ENV += \
 	CPPFLAGS="$(TARGET_CPPFLAGS)" \
 	CFLAGS="$(TARGET_CFLAGS)" \
