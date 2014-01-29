@@ -33,7 +33,7 @@ define KernelPackage/batman-adv-devel
   URL:=http://www.open-mesh.org/
   MAINTAINER:=Marek Lindner <lindner_marek@yahoo.de>
   SUBMENU:=Network Support
-  DEPENDS:=+kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c +libc
+  DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c +libc +KMOD_BATMAN_ADV_DEVEL_BATCTL:libnl-tiny
   TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
@@ -81,7 +81,10 @@ TARGET_LDFLAGS += -fuse-linker-plugin
 MAKE_BATCTL_ENV += \
 	CPPFLAGS="$(TARGET_CPPFLAGS)" \
 	CFLAGS="$(TARGET_CFLAGS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)"
+	LDFLAGS="$(TARGET_LDFLAGS)" \
+	LIBNL_NAME="libnl-tiny" \
+	LIBNL_CFLAGS="-I$(STAGING_DIR)/usr/include/libnl-tiny" \
+	LIBNL_LDLIBS="-lnl-tiny"
 
 MAKE_BATCTL_ARGS += \
 	REVISION="$(PKG_BATCTL_SHORTREV)" \
