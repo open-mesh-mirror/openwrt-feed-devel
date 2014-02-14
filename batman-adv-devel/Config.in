@@ -19,15 +19,6 @@ config KMOD_BATMAN_ADV_DEVEL_NC
 	depends on PACKAGE_kmod-batman-adv-devel
 	default n
 
-config KMOD_BATMAN_ADV_DEVEL_BATCTL
-	bool "enable batctl"
-	depends on PACKAGE_kmod-batman-adv-devel
-	default y
-	help
-		batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
-		It is an easier method for configuring batman-adv and
-		provides some additional tools for debugging as well.
-
 config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 	string
 	prompt "batman-adv git revision to build package with"
@@ -38,12 +29,3 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 		default value. This allows to build from non-master branches
 		to test unreleased features.
 
-config KMOD_BATMAN_ADV_DEVEL_BATCTL_REV
-	string
-	prompt "batctl git revision to build package with"
-	depends on PACKAGE_kmod-batman-adv-devel
-	default "abe78a5"
-	help
-		Enter the full or shortened git revision to override package
-		default value. This allows to build from non-master branches
-		to test unreleased features.

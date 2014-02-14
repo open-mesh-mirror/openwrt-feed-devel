@@ -11,29 +11,24 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=batman-adv-devel
 
 PKG_BATMAN_REV:=$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_REV)
-PKG_BATCTL_REV:=$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATCTL_REV)
 
 PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
 PKG_BATMAN_DIR:=batman-adv-$(PKG_BATMAN_SHORTREV)
-PKG_BATCTL_SHORTREV:=$(shell echo $(PKG_BATCTL_REV) | cut -c1-7)
-PKG_BATCTL_FNAME:=batctl-devel-$(PKG_BATCTL_SHORTREV).tar.gz
-PKG_BATCTL_DIR:=batctl-$(PKG_BATCTL_SHORTREV)
 
 PKG_SOURCE_URL:=http://git.open-mesh.org/snapshot/
 PKG_SOURCE:=$(PKG_BATMAN_FNAME)
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATMAN_DIR)
-PKG_BATCTL_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATCTL_DIR)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 define KernelPackage/batman-adv-devel
   URL:=http://www.open-mesh.org/
-  MAINTAINER:=Marek Lindner <lindner_marek@yahoo.de>
+  MAINTAINER:=Marek Lindner <mareklindner@neomailbox.ch>
   SUBMENU:=Network Support
-  DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c +libc +KMOD_BATMAN_ADV_DEVEL_BATCTL:libnl-tiny
+  DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c
   TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
@@ -42,8 +37,7 @@ endef
 define KernelPackage/batman-adv-devel/description
 B.A.T.M.A.N. advanced is a kernel module which allows to
 build layer 2 mesh networks. This package builds the latest
-development version ($(PKG_BATMAN_SHORTREV)) of the kernel module plus 
-its user space configuration & managerment tool batctl.
+development version ($(PKG_BATMAN_SHORTREV)).
 endef
 
 define KernelPackage/batman-adv-devel/config
@@ -64,62 +58,6 @@ MAKE_BATMAN_ADV_ARGS += \
 	CONFIG_BATMAN_ADV_NC=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_NC),y,n) \
 	REVISION="$(PKG_BATMAN_SHORTREV)" all
 
-# The linker can identify unused sections of a binary when each symbol is stored
-# in a separate section. This mostly removes unused linker sections and reduces
-# the size by ~3% on mipsel.
-
-TARGET_CFLAGS  += -ffunction-sections -fdata-sections
-TARGET_LDFLAGS += -Wl,--gc-sections
-
-# Link-time optimization allows to move parts of the optimization from the single
-# source file to the global source view. This is done by emitting the GIMPLE
-# representation in each object file and analyzing it again during the link step.
-
-TARGET_CFLAGS  += -flto
-TARGET_LDFLAGS += -fuse-linker-plugin
-
-MAKE_BATCTL_ENV += \
-	CPPFLAGS="$(TARGET_CPPFLAGS)" \
-	CFLAGS="$(TARGET_CFLAGS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)" \
-	LIBNL_NAME="libnl-tiny" \
-	LIBNL_CFLAGS="-I$(STAGING_DIR)/usr/include/libnl-tiny" \
-	LIBNL_LDLIBS="-lnl-tiny"
-
-MAKE_BATCTL_ARGS += \
-	REVISION="$(PKG_BATCTL_SHORTREV)" \
-	CC="$(TARGET_CC)" \
-	DESTDIR="$(PKG_INSTALL_DIR)" \
-	batctl install
-
-ifneq ($(DEVELOPER)$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATCTL),)
-define Download/batctl
-  FILE:=$(PKG_BATCTL_FNAME)
-  URL:=$(PKG_SOURCE_URL)
-endef
-$(eval $(call Download,batctl))
-
-BATCTL_EXTRACT = tar xzf "$(DL_DIR)/$(PKG_BATCTL_FNAME)" -C "$(BUILD_DIR)/$(PKG_NAME)"
-BATCTL_PATCH = $(call Build/DoPatch,"$(PKG_BATCTL_BUILD_DIR)","$(PATCH_DIR)","*batctl*")
-BATCTL_BUILD = $(MAKE_BATCTL_ENV) $(MAKE) -C $(PKG_BATCTL_BUILD_DIR) $(MAKE_BATCTL_ARGS)
-BATCTL_INSTALL = $(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/sbin/batctl $(1)/usr/sbin/
-endif
-
-KPATCH ?= $(PATCH)
-define Build/DoPatch
-	@if [ -d "$(2)" ]; then \
-		if [ "$$$$(ls $(2) | grep -Ec $(3))" -gt 0 ]; then \
-			$(KPATCH) "$(1)" "$(2)" "$(3)"; \
-		fi; \
-	fi
-endef
-
-define Build/Patch
-	$(call Build/DoPatch,"$(PKG_BUILD_DIR)","$(PATCH_DIR)","*batman*")
-	$(BATCTL_EXTRACT)
-	$(BATCTL_PATCH)
-endef
-
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	$(SED) '/#define _NET_BATMAN_ADV_MAIN_H_/a\#undef CONFIG_MODULE_STRIPPED' \
@@ -128,7 +66,6 @@ endef
 
 define Build/Compile
 	$(MAKE) -C "$(PKG_BUILD_DIR)" $(MAKE_BATMAN_ADV_ARGS)
-	$(BATCTL_BUILD)
 endef
 
 define Build/Clean
@@ -141,7 +78,6 @@ define KernelPackage/batman-adv-devel/install
 	$(INSTALL_DATA) ./files/lib/batman-adv/config.sh $(1)/lib/batman-adv
 	$(INSTALL_BIN) ./files/etc/hotplug.d/net/99-batman-adv $(1)/etc/hotplug.d/net
 	$(INSTALL_BIN) ./files/lib/netifd/proto/batadv.sh $(1)/lib/netifd/proto
-	$(BATCTL_INSTALL)
 endef
 
 $(eval $(call KernelPackage,batman-adv-devel))
