@@ -14,6 +14,11 @@ config KMOD_BATMAN_ADV_DEVEL_DAT
 	depends on PACKAGE_kmod-batman-adv-devel
 	default y
 
+config KMOD_BATMAN_ADV_DEVEL_MCAST
+	bool "enable multicast transmission optimization"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default y
+
 config KMOD_BATMAN_ADV_DEVEL_NC
 	bool "enable network coding [requires promisc mode support]"
 	depends on PACKAGE_kmod-batman-adv-devel
@@ -23,7 +28,7 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 	string
 	prompt "batman-adv git revision to build package with"
 	depends on PACKAGE_kmod-batman-adv-devel
-	default "fbe649d"
+	default "0dd5d2c"
 	help
 		Enter the full or shortened git revision to override package
 		default value. This allows to build from non-master branches

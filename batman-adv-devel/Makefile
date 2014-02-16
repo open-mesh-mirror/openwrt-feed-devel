@@ -10,9 +10,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BATMAN_REV:=$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_REV)
-
-PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_BATMAN_REV) | cut -c1-7)
+PKG_VERSION:=$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_REV)
+PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_VERSION) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
 PKG_BATMAN_DIR:=batman-adv-$(PKG_BATMAN_SHORTREV)
 
@@ -37,7 +36,7 @@ endef
 define KernelPackage/batman-adv-devel/description
 B.A.T.M.A.N. advanced is a kernel module which allows to
 build layer 2 mesh networks. This package builds the latest
-development version ($(PKG_BATMAN_SHORTREV)).
+development version.
 endef
 
 define KernelPackage/batman-adv-devel/config
@@ -55,6 +54,7 @@ MAKE_BATMAN_ADV_ARGS += \
 	CONFIG_BATMAN_ADV_DEBUG=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_DEBUG_LOG),y,n) \
 	CONFIG_BATMAN_ADV_BLA=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_BLA),y,n) \
 	CONFIG_BATMAN_ADV_DAT=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_DAT),y,n) \
+	CONFIG_BATMAN_ADV_MCAST=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_MCAST),y,n) \
 	CONFIG_BATMAN_ADV_NC=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_NC),y,n) \
 	REVISION="$(PKG_BATMAN_SHORTREV)" all
 
