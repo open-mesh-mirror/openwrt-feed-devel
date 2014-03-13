@@ -15,6 +15,7 @@ config 'mesh' 'bat0'
 	option 'multicast_mode'
 	option 'network_coding'
 	option 'hop_penalty'
+	option 'isolation_mark'
 
 # yet another batX instance
 # config 'mesh' 'bat5'
