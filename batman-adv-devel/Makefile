@@ -43,6 +43,10 @@ define KernelPackage/batman-adv-devel/config
 	source "$(SOURCE)/Config.in"
 endef
 
+define Package/kmod-batman-adv-devel/conffiles
+/etc/config/batman-adv
+endef
+
 MAKE_BATMAN_ADV_ARGS += \
 	CROSS_COMPILE="$(TARGET_CROSS)" \
 	KERNELPATH="$(LINUX_DIR)" \
