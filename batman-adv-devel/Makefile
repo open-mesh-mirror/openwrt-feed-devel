@@ -28,8 +28,10 @@ define KernelPackage/batman-adv-devel
   MAINTAINER:=Marek Lindner <mareklindner@neomailbox.ch>
   SUBMENU:=Network Support
   DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c
+  KCONFIG:=\
+          CONFIG_AVERAGE=y
   TITLE:=B.A.T.M.A.N. Adv devel
-  FILES:=$(PKG_BUILD_DIR)/batman-adv.$(LINUX_KMOD_SUFFIX)
+  FILES:=$(PKG_BUILD_DIR)/net/batman-adv/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,batman-adv)
 endef
 
@@ -60,12 +62,13 @@ MAKE_BATMAN_ADV_ARGS += \
 	CONFIG_BATMAN_ADV_DAT=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_DAT),y,n) \
 	CONFIG_BATMAN_ADV_MCAST=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_MCAST),y,n) \
 	CONFIG_BATMAN_ADV_NC=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_NC),y,n) \
+	CONFIG_BATMAN_ADV_BATMAN_V=$(if $(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_V),y,n) \
 	REVISION="$(PKG_BATMAN_SHORTREV)" all
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	$(SED) '/#define _NET_BATMAN_ADV_MAIN_H_/a\#undef CONFIG_MODULE_STRIPPED' \
-	    $(PKG_BUILD_DIR)/main.h
+	    $(PKG_BUILD_DIR)/net/batman-adv/main.h
 endef
 
 define Build/Compile
