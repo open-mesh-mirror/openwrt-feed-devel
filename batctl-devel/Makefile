@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batctl-devel
 
-PKG_VERSION:=1d48de5
+PKG_VERSION:=224b5e4
 PKG_BATCTL_SHORTREV:=$(shell echo $(PKG_VERSION) | cut -c1-7)
 PKG_BATCTL_FNAME:=batctl-devel-$(PKG_BATCTL_SHORTREV).tar.gz
 PKG_BATCTL_DIR:=batctl-$(PKG_BATCTL_SHORTREV)
