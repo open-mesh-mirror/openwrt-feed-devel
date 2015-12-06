@@ -15,7 +15,7 @@ PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_VERSION) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
 PKG_BATMAN_DIR:=batman-adv-$(PKG_BATMAN_SHORTREV)
 
-PKG_SOURCE_URL:=http://git.open-mesh.org/snapshot/
+PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
 PKG_SOURCE:=$(PKG_BATMAN_FNAME)
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATMAN_DIR)
@@ -24,7 +24,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 define KernelPackage/batman-adv-devel
-  URL:=http://www.open-mesh.org/
+  URL:=https://www.open-mesh.org/
   MAINTAINER:=Marek Lindner <mareklindner@neomailbox.ch>
   SUBMENU:=Network Support
   DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c

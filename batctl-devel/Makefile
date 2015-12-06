@@ -14,7 +14,7 @@ PKG_BATCTL_SHORTREV:=$(shell echo $(PKG_VERSION) | cut -c1-7)
 PKG_BATCTL_FNAME:=batctl-devel-$(PKG_BATCTL_SHORTREV).tar.gz
 PKG_BATCTL_DIR:=batctl-$(PKG_BATCTL_SHORTREV)
 
-PKG_SOURCE_URL:=http://git.open-mesh.org/snapshot/
+PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
 PKG_SOURCE:=$(PKG_BATCTL_FNAME)
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATCTL_DIR)
@@ -22,7 +22,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATCTL_DIR)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/batctl-devel
-  URL:=http://www.open-mesh.org/
+  URL:=https://www.open-mesh.org/
   SECTION:=net
   CATEGORY:=Network
   DEPENDS:=+kmod-batman-adv-devel +libnl-tiny +libc
