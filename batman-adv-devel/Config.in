@@ -33,7 +33,7 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
 	string
 	prompt "batman-adv git revision to build package with"
 	depends on PACKAGE_kmod-batman-adv-devel
-	default "7da6fe1d"
+	default "d5e8ba8"
 	help
 		Enter the full or shortened git revision to override package
 		default value. This allows to build from non-master branches
