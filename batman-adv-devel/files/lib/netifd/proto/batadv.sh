@@ -19,7 +19,6 @@ proto_batadv_setup() {
 	[ -n "$routing_algo" ] || routing_algo="BATMAN_IV"
 	echo "$routing_algo" > "/sys/module/batman_adv/parameters/routing_algo"
 
-	uci get batman_adv.$mesh.routing_algo
 	echo "$mesh" > "/sys/class/net/$iface/batman_adv/mesh_iface"
 	proto_init_update "$iface" 1
 	proto_send_update "$config"
