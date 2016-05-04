@@ -10,8 +10,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_VERSION:=$(call qstrip,$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_REV))
-PKG_BATMAN_SHORTREV:=$(shell echo $(PKG_VERSION) | cut -c1-7)
+PKG_BRANCH:=$(call qstrip,$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_BRANCH))
+PKG_BATMAN_SHORTREV:=$(shell git ls-remote https://git@git.open-mesh.org/batman-adv.git $(PKG_BRANCH) | cut -c1-7)
 PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
 PKG_BATMAN_DIR:=batman-adv-$(PKG_BATMAN_SHORTREV)
 

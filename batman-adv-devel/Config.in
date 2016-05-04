@@ -29,13 +29,13 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_V
         depends on PACKAGE_kmod-batman-adv-devel
         default n
 
-config KMOD_BATMAN_ADV_DEVEL_BATMAN_REV
+config KMOD_BATMAN_ADV_DEVEL_BATMAN_BRANCH
 	string
-	prompt "batman-adv git revision to build package with"
+	prompt "batman-adv branch to build package with"
 	depends on PACKAGE_kmod-batman-adv-devel
-	default "d5e8ba8"
+	default "master"
 	help
-		Enter the full or shortened git revision to override package
+		Enter a batman-adv branch name or git tag to override package
 		default value. This allows to build from non-master branches
 		to test unreleased features.
 
