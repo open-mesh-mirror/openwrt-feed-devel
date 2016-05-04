@@ -9,10 +9,10 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batctl-devel
 
-PKG_VERSION:=7a3d563
-PKG_BATCTL_SHORTREV:=$(shell echo $(PKG_VERSION) | cut -c1-7)
-PKG_BATCTL_FNAME:=batctl-devel-$(PKG_BATCTL_SHORTREV).tar.gz
-PKG_BATCTL_DIR:=batctl-$(PKG_BATCTL_SHORTREV)
+PKG_BRANCH:=master
+PKG_VERSION:=$(shell git ls-remote https://git@git.open-mesh.org/batctl.git $(PKG_BRANCH) | cut -c1-7)
+PKG_BATCTL_FNAME:=batctl-devel-$(PKG_VERSION).tar.gz
+PKG_BATCTL_DIR:=batctl-$(PKG_VERSION)
 
 PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
 PKG_SOURCE:=$(PKG_BATCTL_FNAME)
@@ -34,7 +34,7 @@ define Package/batctl-devel/description
 batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
 It is an easier method for configuring batman-adv and provides some
 additional tools for debugging as well. This package builds the latest
-development version ($(PKG_BATCTL_SHORTREV)).
+development version ($(PKG_VERSION)).
 endef
 
 # The linker can identify unused sections of a binary when each symbol is stored
@@ -58,7 +58,7 @@ MAKE_BATCTL_ENV += \
         LIBNL_NAME="libnl-tiny"
 
 MAKE_BATCTL_ARGS += \
-        REVISION="$(PKG_BATCTL_SHORTREV)" \
+        REVISION="$(PKG_VERSION)" \
         CC="$(TARGET_CC)" \
         DESTDIR="$(PKG_INSTALL_DIR)" \
         batctl install
