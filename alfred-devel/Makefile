@@ -21,8 +21,6 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_ALFRED_DIR)
 
 include $(INCLUDE_DIR)/package.mk
 
-init-y := alfred
-
 define Package/alfred-devel
   SECTION:=net
   CATEGORY:=Network
