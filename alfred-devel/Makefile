@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alfred-devel
 
-PKG_BRANCH:=master
+PKG_BRANCH:=$(call qstrip,$(CONFIG_ALFRED_DEVEL_ALFRED_BRANCH))
 PKG_VERSION:=$(shell git ls-remote https://git@git.open-mesh.org/alfred.git $(PKG_BRANCH) | cut -c1-7)
 PKG_ALFRED_FNAME:=alfred-devel-$(PKG_VERSION).tar.gz
 PKG_ALFRED_DIR:=alfred-$(PKG_VERSION)
