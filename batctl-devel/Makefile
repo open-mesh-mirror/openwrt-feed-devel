@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batctl-devel
 
-PKG_BRANCH:=master
+PKG_BRANCH:=$(call qstrip,$(CONFIG_BATCTL_DEVEL_BATCTL_BRANCH))
 PKG_VERSION:=$(shell git ls-remote https://git@git.open-mesh.org/batctl.git $(PKG_BRANCH) | cut -c1-7)
 PKG_BATCTL_FNAME:=batctl-devel-$(PKG_VERSION).tar.gz
 PKG_BATCTL_DIR:=batctl-$(PKG_VERSION)
@@ -35,6 +35,18 @@ batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
 It is an easier method for configuring batman-adv and provides some
 additional tools for debugging as well. This package builds the latest
 development version ($(PKG_VERSION)).
+endef
+
+define Package/batctl-devel/config
+  config BATCTL_DEVEL_BATCTL_BRANCH
+    string
+    prompt "batctl branch to build package with"
+    depends on PACKAGE_batctl-devel
+    default "master"
+    help
+      Enter a batctl branch name or git tag to override package
+      default value. This allows to build from non-master branches
+      to test unreleased features.
 endef
 
 # The linker can identify unused sections of a binary when each symbol is stored
