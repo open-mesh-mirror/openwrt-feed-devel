@@ -71,8 +71,14 @@ NOSTDINC_FLAGS = \
 	-include $(PKG_BUILD_DIR)/compat-hacks.h \
 	-DBATADV_SOURCE_VERSION=\\\"$(PKG_BATMAN_SHORTREV)\\\" \
 
+COMPAT_SOURCES = \
+	$(if $(CONFIG_KMOD_BATMAN_ADV_MCAST),../../compat-sources/net/core/skbuff.o,) \
+	$(if $(CONFIG_KMOD_BATMAN_ADV_MCAST),../../compat-sources/net/ipv4/igmp.o,) \
+	$(if $(CONFIG_KMOD_BATMAN_ADV_MCAST),../../compat-sources/net/ipv6/mcast_snoop.o,) \
+
 define Build/Compile
-	+$(MAKE) $(PKG_JOBS) -C "$(LINUX_DIR)" \
+	+env "batman-adv-y=$(COMPAT_SOURCES)" \
+	$(MAKE) $(PKG_JOBS) -C "$(LINUX_DIR)" \
 		ARCH="$(LINUX_KARCH)" \
 		CROSS_COMPILE="$(TARGET_CROSS)" \
 		SUBDIRS="$(PKG_BUILD_DIR)/net/batman-adv" \
