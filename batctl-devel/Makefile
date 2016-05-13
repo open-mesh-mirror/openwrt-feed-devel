@@ -67,7 +67,8 @@ MAKE_BATCTL_ENV += \
         CPPFLAGS="$(TARGET_CPPFLAGS)" \
         CFLAGS="$(TARGET_CFLAGS)" \
         LDFLAGS="$(TARGET_LDFLAGS)" \
-        LIBNL_NAME="libnl-tiny"
+        LIBNL_NAME="libnl-tiny" \
+        LIBNL_GENL_NAME="libnl-tiny"
 
 MAKE_BATCTL_ARGS += \
         REVISION="$(PKG_VERSION)" \
