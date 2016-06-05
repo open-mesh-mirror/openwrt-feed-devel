@@ -28,7 +28,7 @@ define KernelPackage/batman-adv-devel
   URL:=https://www.open-mesh.org/
   MAINTAINER:=Simon Wunderlich <sw@simonwunderlich.de>
   SUBMENU:=Network Support
-  DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-core +kmod-crypto-crc32c +kmod-lib-crc32c +kmod-cfg80211
+  DEPENDS:=+KMOD_BATMAN_ADV_DEVEL_BLA:kmod-lib-crc16 +kmod-crypto-crc32c +kmod-lib-crc32c +kmod-cfg80211
   TITLE:=B.A.T.M.A.N. Adv devel
   FILES:=$(PKG_BUILD_DIR)/net/batman-adv/batman-adv.$(LINUX_KMOD_SUFFIX)
   AUTOLOAD:=$(call AutoLoad,50,cfg80211 batman-adv)
