@@ -92,8 +92,6 @@ endef
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	$(CP) ./files/compat-hacks.h $(PKG_BUILD_DIR)/
-	$(SED) '/#define _NET_BATMAN_ADV_MAIN_H_/a\#undef CONFIG_MODULE_STRIPPED' \
-	    $(PKG_BUILD_DIR)/net/batman-adv/main.h
 endef
 
 define Build/Clean
