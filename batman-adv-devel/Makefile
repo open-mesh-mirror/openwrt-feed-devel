@@ -19,10 +19,10 @@ PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
 PKG_SOURCE:=$(PKG_BATMAN_FNAME)
 PKG_LICENSE:=GPL-2.0
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATMAN_DIR)
-
-include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/kernel.mk
+include $(INCLUDE_DIR)/package.mk
+
+PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)/$(PKG_BATMAN_DIR)
 
 define KernelPackage/batman-adv-devel
   URL:=https://www.open-mesh.org/
