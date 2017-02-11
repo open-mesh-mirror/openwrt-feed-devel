@@ -14,6 +14,11 @@ config KMOD_BATMAN_ADV_DEVEL_DAT
 	depends on PACKAGE_kmod-batman-adv-devel
 	default y
 
+config KMOD_BATMAN_ADV_DEVEL_DEBUGFS
+	bool "enable debugfs support"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default y
+
 config KMOD_BATMAN_ADV_DEVEL_MCAST
 	bool "enable multicast transmission optimization"
 	depends on PACKAGE_kmod-batman-adv-devel
@@ -25,9 +30,9 @@ config KMOD_BATMAN_ADV_DEVEL_NC
 	default n
 
 config KMOD_BATMAN_ADV_DEVEL_BATMAN_V
-        bool "enable batman v routing algorithm"
-        depends on PACKAGE_kmod-batman-adv-devel
-        default n
+	bool "enable batman v routing algorithm"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default y
 
 config KMOD_BATMAN_ADV_DEVEL_BATMAN_BRANCH
 	string
