@@ -25,7 +25,7 @@ define Package/alfred-devel
   SECTION:=net
   CATEGORY:=Network
   TITLE:=Almighty Lightweight Fact Remote Exchange Daemon
-  DEPENDS:= +libc +kmod-ipv6 +librt \
+  DEPENDS:= +libc @IPV6 +libnl-tiny +librt \
 	  +ALFRED_DEVEL_NEEDS_lua:lua \
 	  +ALFRED_DEVEL_NEEDS_libgps:libgps
 endef
@@ -41,7 +41,9 @@ endef
 MAKE_ALFRED_FLAGS=\
 	CONFIG_ALFRED_VIS=$(if $(CONFIG_PACKAGE_ALFRED_DEVEL_VIS),y,n) \
 	CONFIG_ALFRED_GPSD=$(if $(CONFIG_PACKAGE_ALFRED_DEVEL_GPSD),y,n) \
-	CONFIG_ALFRED_CAPABILITIES=n
+	CONFIG_ALFRED_CAPABILITIES=n \
+        LIBNL_NAME="libnl-tiny" \
+        LIBNL_GENL_NAME="libnl-tiny"
 
 TARGET_CFLAGS  += -ffunction-sections -fdata-sections -flto
 TARGET_LDFLAGS += -Wl,--gc-sections -fuse-linker-plugin
