@@ -22,6 +22,8 @@ PKG_LICENSE:=GPL-2.0
 
 include $(INCLUDE_DIR)/package.mk
 
+init-y := alfred
+
 define Package/alfred-devel
   URL:=https://www.open-mesh.org/
   SECTION:=net
