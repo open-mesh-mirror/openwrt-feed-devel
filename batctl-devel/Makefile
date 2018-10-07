@@ -9,15 +9,27 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batctl-devel
 
-PKG_BRANCH:=$(call qstrip,$(CONFIG_BATCTL_DEVEL_BATCTL_BRANCH))
-PKG_VERSION:=$(shell git ls-remote https://git@git.open-mesh.org/batctl.git $(PKG_BRANCH) | cut -c1-7)
-PKG_BATCTL_FNAME:=batctl-devel-$(PKG_VERSION).tar.gz
-PKG_BATCTL_DIR:=batctl-$(PKG_VERSION)
+ifdef CONFIG_batctl-devel_SOURCE_GIT
 
-PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
-PKG_SOURCE:=$(PKG_BATCTL_FNAME)
+PKG_BRANCH:=$(call qstrip,$(CONFIG_batctl-devel_BRANCH))
+PKG_SOURCE_URL:=$(call qstrip,$(CONFIG_batctl-devel_REPOSITORY))
+PKG_REV:=$(shell git ls-remote $(PKG_SOURCE_URL) $(PKG_BRANCH)|cut -c1-40)
+PKG_VERSION:=0.$(PKG_REV)
+PKG_SOURCE_PROTO:=git
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_BATCTL_DIR)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_VERSION:=$(PKG_REV)
+
+endif
+
+ifdef CONFIG_batctl-devel_SOURCE_DIRECTORY
+
+PKG_REV:=0
+PKG_VERSION:=0.$(PKG_REV)
+
+endif
+
+PKG_LICENSE:=GPL-2.0
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -38,7 +50,7 @@ development version ($(PKG_VERSION)).
 endef
 
 define Package/batctl-devel/config
-	source "$(SOURCE)/Config.in"
+	source "$(SOURCE)/Config.devel.in"
 endef
 
 # The linker can identify unused sections of a binary when each symbol is stored
@@ -68,6 +80,16 @@ MAKE_BATCTL_ARGS += \
         batctl install \
         REVISION="openwrt-$(PKG_VERSION)"
 
+
+ifdef CONFIG_batctl-devel_SOURCE_DIRECTORY
+
+define Build/Prepare
+	mkdir -p $(PKG_BUILD_DIR)
+	$(CP) $(CONFIG_batctl-devel_DIRECTORY)/* $(PKG_BUILD_DIR)/
+	$(call Build/Prepare/Default)
+endef
+
+endif
 
 define Build/Compile
 	$(MAKE_BATCTL_ENV) $(MAKE) -C "$(PKG_BUILD_DIR)" $(MAKE_BATCTL_ARGS)
