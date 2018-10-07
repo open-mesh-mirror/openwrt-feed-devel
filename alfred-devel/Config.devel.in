@@ -1,0 +1,50 @@
+if PACKAGE_alfred-devel
+
+choice
+	prompt "Selected alfred-devel download method"
+	default alfred-devel_SOURCE_GIT
+
+	config alfred-devel_SOURCE_GIT
+		bool "git repository"
+
+	config alfred-devel_SOURCE_DIRECTORY
+		bool "directory"
+
+endchoice
+
+endif
+
+if alfred-devel_SOURCE_GIT
+
+config alfred-devel_REPOSITORY
+	string
+	prompt "alfred-devel repository to build"
+	depends on PACKAGE_alfred-devel
+	default "https://git.open-mesh.org/alfred.git"
+	help
+		Enter a alfred-devel repository url
+
+config alfred-devel_BRANCH
+	string
+	prompt "alfred-devel branch to build"
+	depends on PACKAGE_alfred-devel
+	default "master"
+	help
+		Enter a alfred branch name or git tag to override package
+		default value. This allows to build from non-master branches
+		to test unreleased features.
+
+endif
+
+
+if alfred-devel_SOURCE_DIRECTORY
+
+config alfred-devel_DIRECTORY
+	string
+	prompt "alfred-devel source directory"
+	depends on PACKAGE_alfred-devel
+	default "/tmp/alfred-devel"
+	help
+		Enter a alfred-devel source directory
+
+endif

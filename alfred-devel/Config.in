@@ -20,13 +20,3 @@ config PACKAGE_ALFRED_DEVEL_GPSD
 	depends on PACKAGE_alfred-devel
 	select ALFRED_DEVEL_NEEDS_libgps
 	default n
-
-config ALFRED_DEVEL_ALFRED_BRANCH
-        string
-        prompt "alfred branch to build package with"
-        depends on PACKAGE_alfred-devel
-        default "master"
-        help
-                Enter an alfred branch name or git tag to override package
-                default value. This allows to build from non-master branches
-                to test unreleased features.

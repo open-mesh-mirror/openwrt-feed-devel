@@ -9,15 +9,26 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alfred-devel
 
-PKG_BRANCH:=$(call qstrip,$(CONFIG_ALFRED_DEVEL_ALFRED_BRANCH))
-PKG_VERSION:=$(shell git ls-remote https://git@git.open-mesh.org/alfred.git $(PKG_BRANCH) | cut -c1-7)
-PKG_ALFRED_FNAME:=alfred-devel-$(PKG_VERSION).tar.gz
-PKG_ALFRED_DIR:=alfred-$(PKG_VERSION)
+ifdef CONFIG_alfred-devel_SOURCE_GIT
 
-PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
-PKG_SOURCE:=$(PKG_ALFRED_FNAME)
+PKG_BRANCH:=$(call qstrip,$(CONFIG_alfred-devel_BRANCH))
+PKG_SOURCE_URL:=$(call qstrip,$(CONFIG_alfred-devel_REPOSITORY))
+PKG_REV:=$(shell git ls-remote $(PKG_SOURCE_URL) $(PKG_BRANCH)|cut -c1-40)
+PKG_VERSION:=0.$(PKG_REV)
+PKG_SOURCE_PROTO:=git
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_ALFRED_DIR)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_VERSION:=$(PKG_REV)
+
+endif
+
+ifdef CONFIG_alfred-devel_SOURCE_DIRECTORY
+
+PKG_REV:=0
+PKG_VERSION:=0.$(PKG_REV)
+
+endif
+
 PKG_LICENSE:=GPL-2.0
 
 include $(INCLUDE_DIR)/package.mk
@@ -55,6 +66,7 @@ define Package/alfred-devel/conffiles
 endef
 
 define Package/alfred-devel/config
+	source "$(SOURCE)/Config.devel.in"
 	source "$(SOURCE)/Config.in"
 endef
 
@@ -68,6 +80,16 @@ MAKE_ALFRED_FLAGS=\
 
 TARGET_CFLAGS  += -ffunction-sections -fdata-sections -flto
 TARGET_LDFLAGS += -Wl,--gc-sections -fuse-linker-plugin
+
+ifdef CONFIG_alfred-devel_SOURCE_DIRECTORY
+
+define Build/Prepare
+	mkdir -p $(PKG_BUILD_DIR)
+	$(CP) $(CONFIG_alfred-devel_DIRECTORY)/* $(PKG_BUILD_DIR)/
+	$(call Build/Prepare/Default)
+endef
+
+endif
 
 define Build/Compile
 	CFLAGS="$(TARGET_CPPFLAGS) $(TARGET_CFLAGS)" \
