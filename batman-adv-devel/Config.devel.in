@@ -1,0 +1,50 @@
+if PACKAGE_kmod-batman-adv-devel
+
+choice
+	prompt "Selected batman-adv-devel download method"
+	default batman-adv-devel_SOURCE_GIT
+
+	config batman-adv-devel_SOURCE_GIT
+		bool "git repository"
+
+	config batman-adv-devel_SOURCE_DIRECTORY
+		bool "directory"
+
+endchoice
+
+endif
+
+if batman-adv-devel_SOURCE_GIT
+
+config batman-adv-devel_REPOSITORY
+	string
+	prompt "batman-adv-devel repository to build"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default "https://git.open-mesh.org/batman-adv.git"
+	help
+		Enter a batman-adv-devel repository url
+
+config batman-adv-devel_BRANCH
+	string
+	prompt "batman-adv-devel branch to build"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default "master"
+	help
+		Enter a batman-adv branch name or git tag to override package
+		default value. This allows to build from non-master branches
+		to test unreleased features.
+
+endif
+
+
+if batman-adv-devel_SOURCE_DIRECTORY
+
+config batman-adv-devel_DIRECTORY
+	string
+	prompt "batman-adv-devel source directory"
+	depends on PACKAGE_kmod-batman-adv-devel
+	default "/tmp/batman-adv-devel"
+	help
+		Enter a batman-adv-devel source directory
+
+endif

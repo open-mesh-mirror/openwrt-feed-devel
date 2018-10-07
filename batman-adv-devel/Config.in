@@ -33,14 +33,3 @@ config KMOD_BATMAN_ADV_DEVEL_BATMAN_V
 	bool "enable batman v routing algorithm"
 	depends on PACKAGE_kmod-batman-adv-devel
 	default y
-
-config KMOD_BATMAN_ADV_DEVEL_BATMAN_BRANCH
-	string
-	prompt "batman-adv branch to build package with"
-	depends on PACKAGE_kmod-batman-adv-devel
-	default "master"
-	help
-		Enter a batman-adv branch name or git tag to override package
-		default value. This allows to build from non-master branches
-		to test unreleased features.
-

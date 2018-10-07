@@ -9,13 +9,26 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=batman-adv-devel
 
-PKG_BRANCH:=$(call qstrip,$(CONFIG_KMOD_BATMAN_ADV_DEVEL_BATMAN_BRANCH))
-PKG_BATMAN_SHORTREV:=$(shell git ls-remote https://git@git.open-mesh.org/batman-adv.git $(PKG_BRANCH) | cut -c1-7)
-PKG_BATMAN_FNAME:=batman-adv-devel-$(PKG_BATMAN_SHORTREV).tar.gz
-PKG_BATMAN_DIR:=batman-adv-$(PKG_BATMAN_SHORTREV)
+ifdef CONFIG_batman-adv-devel_SOURCE_GIT
 
-PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
-PKG_SOURCE:=$(PKG_BATMAN_FNAME)
+PKG_BRANCH:=$(call qstrip,$(CONFIG_batman-adv-devel_BRANCH))
+PKG_SOURCE_URL:=$(call qstrip,$(CONFIG_batman-adv-devel_REPOSITORY))
+PKG_REV:=$(shell git ls-remote $(PKG_SOURCE_URL) $(PKG_BRANCH)|cut -c1-40)
+PKG_VERSION:=0.$(PKG_REV)
+PKG_SOURCE_PROTO:=git
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_VERSION:=$(PKG_REV)
+
+endif
+
+ifdef CONFIG_batman-adv-devel_SOURCE_DIRECTORY
+
+PKG_REV:=0
+PKG_VERSION:=0.$(PKG_REV)
+
+endif
+
 PKG_LICENSE:=GPL-2.0
 PKG_EXTMOD_SUBDIRS=net/batman-adv
 
@@ -23,8 +36,6 @@ STAMP_CONFIGURED_DEPENDS := $(STAGING_DIR)/usr/include/mac80211-backport/backpor
 
 include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/package.mk
-
-PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)/$(PKG_BATMAN_DIR)
 
 define KernelPackage/batman-adv-devel
   URL:=https://www.open-mesh.org/
@@ -43,6 +54,7 @@ development version.
 endef
 
 define KernelPackage/batman-adv-devel/config
+	source "$(SOURCE)/Config.devel.in"
 	source "$(SOURCE)/Config.in"
 endef
 
@@ -73,7 +85,7 @@ NOSTDINC_FLAGS = \
 	-I$(PKG_BUILD_DIR)/include/ \
 	-include backport/backport.h \
 	-include $(PKG_BUILD_DIR)/compat-hacks.h \
-	-DBATADV_SOURCE_VERSION=\\\"$(PKG_BATMAN_SHORTREV)\\\" \
+	-DBATADV_SOURCE_VERSION=\\\"$(PKG_VERSION)\\\" \
 
 COMPAT_SOURCES = \
 	$(if $(CONFIG_KMOD_BATMAN_ADV_MCAST),../../compat-sources/net/core/skbuff.o,) \
@@ -91,6 +103,16 @@ define Build/Compile
 		NOSTDINC_FLAGS="$(NOSTDINC_FLAGS)" \
 		modules
 endef
+
+ifdef CONFIG_batman-adv-devel_SOURCE_DIRECTORY
+
+define Build/Prepare
+	mkdir -p $(PKG_BUILD_DIR)
+	$(CP) $(CONFIG_batman-adv-devel_DIRECTORY)/* $(PKG_BUILD_DIR)/
+	$(call Build/Prepare/Default)
+endef
+
+endif
 
 define KernelPackage/batman-adv-devel/install
 	$(CP) ./files/. $(1)/
