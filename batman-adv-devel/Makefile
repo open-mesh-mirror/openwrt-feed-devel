@@ -18,6 +18,8 @@ PKG_SOURCE_URL:=https://git.open-mesh.org/snapshot/
 PKG_SOURCE:=$(PKG_BATMAN_FNAME)
 PKG_LICENSE:=GPL-2.0
 
+STAMP_CONFIGURED_DEPENDS := $(STAGING_DIR)/usr/include/mac80211-backport/backport/autoconf.h
+
 include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/package.mk
 
