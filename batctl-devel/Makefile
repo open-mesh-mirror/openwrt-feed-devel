@@ -71,10 +71,10 @@ MAKE_BATCTL_ENV += \
         LIBNL_GENL_NAME="libnl-tiny"
 
 MAKE_BATCTL_ARGS += \
-        REVISION="$(PKG_VERSION)" \
         CC="$(TARGET_CC)" \
         DESTDIR="$(PKG_INSTALL_DIR)" \
-        batctl install
+        batctl install \
+        REVISION="openwrt-$(PKG_VERSION)"
 
 
 define Build/Compile
