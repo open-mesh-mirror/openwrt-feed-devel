@@ -63,7 +63,8 @@ MAKE_ALFRED_FLAGS=\
 	CONFIG_ALFRED_GPSD=$(if $(CONFIG_PACKAGE_ALFRED_DEVEL_GPSD),y,n) \
 	CONFIG_ALFRED_CAPABILITIES=n \
         LIBNL_NAME="libnl-tiny" \
-        LIBNL_GENL_NAME="libnl-tiny"
+        LIBNL_GENL_NAME="libnl-tiny" \
+        REVISION="openwrt-$(PKG_VERSION)"
 
 TARGET_CFLAGS  += -ffunction-sections -fdata-sections -flto
 TARGET_LDFLAGS += -Wl,--gc-sections -fuse-linker-plugin
