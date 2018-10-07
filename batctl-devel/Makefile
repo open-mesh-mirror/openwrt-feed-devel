@@ -38,15 +38,7 @@ development version ($(PKG_VERSION)).
 endef
 
 define Package/batctl-devel/config
-  config BATCTL_DEVEL_BATCTL_BRANCH
-    string
-    prompt "batctl branch to build package with"
-    depends on PACKAGE_batctl-devel
-    default "master"
-    help
-      Enter a batctl branch name or git tag to override package
-      default value. This allows to build from non-master branches
-      to test unreleased features.
+	source "$(SOURCE)/Config.in"
 endef
 
 # The linker can identify unused sections of a binary when each symbol is stored
