@@ -30,6 +30,8 @@ PKG_VERSION:=0.$(PKG_REV)
 endif
 
 PKG_LICENSE:=GPL-2.0
+PKG_REV?=0
+PKG_VERSION?=0.$(PKG_REV)
 
 include $(INCLUDE_DIR)/package.mk
 
