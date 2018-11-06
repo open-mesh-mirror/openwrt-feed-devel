@@ -71,6 +71,7 @@ config BATMAN_ADV_DEVEL_NC
 config BATMAN_ADV_DEVEL_MCAST
 	bool "Multicast optimisation"
 	depends on PACKAGE_kmod-batman-adv-devel
+	default y
 	help
 	  This option enables the multicast optimisation which aims to
 	  reduce the air overhead while improving the reliability of
