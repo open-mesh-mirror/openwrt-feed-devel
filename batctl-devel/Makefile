@@ -41,7 +41,7 @@ define Package/batctl-devel
   URL:=https://www.open-mesh.org/
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+kmod-batman-adv-devel +libnl-tiny +libc +librt
+  DEPENDS:=+libnl-tiny +libc +librt
   PROVIDES:=batctl-devel
   MAINTAINER:=Simon Wunderlich <sw@simonwunderlich.de>
   TITLE:=B.A.T.M.A.N. Advanced user space configuration tool (Default)
