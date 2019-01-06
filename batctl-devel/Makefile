@@ -33,6 +33,8 @@ PKG_LICENSE:=GPL-2.0
 PKG_REV?=0
 PKG_VERSION?=0.$(PKG_REV)
 
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
+
 include $(INCLUDE_DIR)/package.mk
 
 define Package/batctl-devel
@@ -40,8 +42,9 @@ define Package/batctl-devel
   SECTION:=net
   CATEGORY:=Network
   DEPENDS:=+kmod-batman-adv-devel +libnl-tiny +libc +librt
-  TITLE:=B.A.T.M.A.N. Advanced user space configuration tool batctl
+  PROVIDES:=batctl-devel
   MAINTAINER:=Simon Wunderlich <sw@simonwunderlich.de>
+  TITLE:=B.A.T.M.A.N. Advanced user space configuration tool (Default)
 endef
 
 define Package/batctl-devel/description
@@ -82,6 +85,119 @@ MAKE_BATCTL_ARGS += \
         batctl install \
         REVISION="openwrt-$(PKG_VERSION)"
 
+config-n := \
+	aggregation \
+	ap_isolation \
+	backbonetable \
+	bisect_iv \
+	bonding \
+	bridge_loop_avoidance \
+	claimtable \
+	dat_cache \
+	distributed_arp_table \
+	event \
+	fragmentation \
+	gateways \
+	gw_mode \
+	hop_penalty \
+	interface \
+	isolation_mark \
+	log \
+	loglevel \
+	mcast_flags \
+	multicast_mode \
+	nc_nodes \
+	neighbors \
+	network_coding \
+	orig_interval \
+	originators \
+	ping \
+	routing_algo \
+	statistics \
+	tcpdump \
+	throughputmeter \
+	traceroute \
+	transglobal \
+	translate \
+	translocal \
+
+config-settings := \
+	aggregation \
+	ap_isolation \
+	bonding \
+	bridge_loop_avoidance \
+	distributed_arp_table \
+	fragmentation \
+	gw_mode \
+	hop_penalty \
+	interface \
+	isolation_mark \
+	loglevel \
+	multicast_mode \
+	network_coding \
+	orig_interval \
+	routing_algo \
+
+config-tables := \
+	backbonetable \
+	claimtable \
+	dat_cache \
+	gateways \
+	loglevel \
+	nc_nodes \
+	neighbors \
+	originators \
+	statistics \
+	transglobal \
+	translocal \
+
+config-tools := \
+	event \
+	log \
+	ping \
+	tcpdump \
+	throughputmeter \
+	traceroute \
+	translate \
+
+config-extratools := \
+	bisect_iv \
+
+ifdef CONFIG_batctl-devel_tiny
+
+config-y := \
+	$(config-settings) \
+
+endif
+
+ifdef CONFIG_batctl-devel_default
+
+config-y := \
+	$(config-settings) \
+	$(config-tables) \
+	$(config-tools) \
+
+endif
+
+ifdef CONFIG_batctl-devel_full
+
+config-y := \
+	$(config-settings) \
+	$(config-tables) \
+	$(config-tools) \
+	$(config-extratools) \
+
+endif
+
+define ConfigVars
+$(subst $(space),,$(foreach opt,$(config-$(1)),CONFIG_$(opt)=$(1)
+))
+endef
+
+define batctl_config
+$(call ConfigVars,n)$(call ConfigVars,y)
+endef
+$(eval $(call shexport,batctl_config))
 
 ifdef CONFIG_batctl-devel_SOURCE_DIRECTORY
 
@@ -94,7 +210,8 @@ endef
 endif
 
 define Build/Compile
-	$(MAKE_BATCTL_ENV) $(MAKE) -C "$(PKG_BUILD_DIR)" $(MAKE_BATCTL_ARGS)
+	$(MAKE_BATCTL_ENV) $(MAKE) -C "$(PKG_BUILD_DIR)" $(MAKE_BATCTL_ARGS) \
+		$$$$$(call shvar,batctl_config)
 endef
 
 define Package/batctl-devel/install

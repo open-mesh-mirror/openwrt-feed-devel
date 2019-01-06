@@ -1,6 +1,24 @@
-if PACKAGE_batctl-devel
+choice
+	depends on PACKAGE_batctl-devel
+
+	prompt "Build variant"
+	default default
+
+	config batctl-devel_tiny
+		bool "tiny"
+
+	config batctl-devel_default
+		bool "default"
+
+	config batctl-devel_full
+		bool "full"
+
+endchoice
+
 
 choice
+	depends on PACKAGE_batctl-devel
+
 	prompt "Selected batctl-devel download method"
 	default batctl-devel_SOURCE_GIT
 
@@ -12,14 +30,11 @@ choice
 
 endchoice
 
-endif
-
-if batctl-devel_SOURCE_GIT
 
 config batctl-devel_REPOSITORY
 	string
 	prompt "batctl-devel repository to build"
-	depends on PACKAGE_batctl-devel
+	depends on batctl-devel_SOURCE_GIT
 	default "https://git.open-mesh.org/batctl.git"
 	help
 		Enter a batctl-devel repository url
@@ -27,24 +42,18 @@ config batctl-devel_REPOSITORY
 config batctl-devel_BRANCH
 	string
 	prompt "batctl-devel branch to build"
-	depends on PACKAGE_batctl-devel
+	depends on batctl-devel_SOURCE_GIT
 	default "master"
 	help
 		Enter a batctl branch name or git tag to override package
 		default value. This allows to build from non-master branches
 		to test unreleased features.
 
-endif
-
-
-if batctl-devel_SOURCE_DIRECTORY
 
 config batctl-devel_DIRECTORY
 	string
 	prompt "batctl-devel source directory"
-	depends on PACKAGE_batctl-devel
+	depends on batctl-devel_SOURCE_DIRECTORY
 	default "/tmp/batctl-devel"
 	help
 		Enter a batctl-devel source directory
-
-endif
