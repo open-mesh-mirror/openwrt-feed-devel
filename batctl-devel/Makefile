@@ -105,6 +105,7 @@ config-n := \
 	log \
 	loglevel \
 	mcast_flags \
+	multicast_fanout \
 	multicast_mode \
 	nc_nodes \
 	neighbors \
@@ -133,6 +134,7 @@ config-settings := \
 	interface \
 	isolation_mark \
 	loglevel \
+	multicast_fanout \
 	multicast_mode \
 	network_coding \
 	orig_interval \
