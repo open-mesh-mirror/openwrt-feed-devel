@@ -102,7 +102,6 @@ config-n := \
 	hop_penalty \
 	interface \
 	isolation_mark \
-	log \
 	loglevel \
 	mcast_flags \
 	multicast_fanout \
@@ -155,7 +154,6 @@ config-tables := \
 
 config-tools := \
 	event \
-	log \
 	ping \
 	tcpdump \
 	throughputmeter \
