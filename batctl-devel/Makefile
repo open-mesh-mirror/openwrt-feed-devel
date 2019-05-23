@@ -105,6 +105,7 @@ config-n := \
 	loglevel \
 	mcast_flags \
 	multicast_fanout \
+	multicast_forceflood \
 	multicast_mode \
 	nc_nodes \
 	neighbors \
@@ -134,6 +135,7 @@ config-settings := \
 	isolation_mark \
 	loglevel \
 	multicast_fanout \
+	multicast_forceflood \
 	multicast_mode \
 	network_coding \
 	orig_interval \
