@@ -72,17 +72,11 @@ TARGET_LDFLAGS += -Wl,--gc-sections
 TARGET_CFLAGS  += -flto
 TARGET_LDFLAGS += -fuse-linker-plugin
 
-MAKE_BATCTL_ENV += \
-        CPPFLAGS="$(TARGET_CPPFLAGS)" \
-        CFLAGS="$(TARGET_CFLAGS)" \
-        LDFLAGS="$(TARGET_LDFLAGS)" \
+MAKE_VARS += \
         LIBNL_NAME="libnl-tiny" \
         LIBNL_GENL_NAME="libnl-tiny"
 
-MAKE_BATCTL_ARGS += \
-        CC="$(TARGET_CC)" \
-        DESTDIR="$(PKG_INSTALL_DIR)" \
-        batctl install \
+MAKE_FLAGS += \
         REVISION="openwrt-$(PKG_VERSION)"
 
 config-n := \
@@ -211,10 +205,7 @@ endef
 
 endif
 
-define Build/Compile
-	$(MAKE_BATCTL_ENV) $(MAKE) -C "$(PKG_BUILD_DIR)" $(MAKE_BATCTL_ARGS) \
-		$$$$$(call shvar,batctl_config)
-endef
+MAKE_FLAGS += $$$$$(call shvar,batctl_config)
 
 define Package/batctl-devel/install
 	$(INSTALL_DIR) $(1)/usr/sbin
