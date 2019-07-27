@@ -35,8 +35,6 @@ PKG_VERSION?=0.$(PKG_REV)
 
 include $(INCLUDE_DIR)/package.mk
 
-init-y := alfred
-
 define Package/alfred-devel
   URL:=https://www.open-mesh.org/
   SECTION:=net
