@@ -72,7 +72,7 @@ define Package/alfred-devel/config
 	source "$(SOURCE)/Config.in"
 endef
 
-MAKE_ALFRED_FLAGS=\
+MAKE_FLAGS += \
 	CONFIG_ALFRED_VIS=$(if $(CONFIG_PACKAGE_ALFRED_DEVEL_VIS),y,n) \
 	CONFIG_ALFRED_GPSD=$(if $(CONFIG_PACKAGE_ALFRED_DEVEL_GPSD),y,n) \
 	CONFIG_ALFRED_CAPABILITIES=n \
@@ -92,12 +92,6 @@ define Build/Prepare
 endef
 
 endif
-
-define Build/Compile
-	CFLAGS="$(TARGET_CPPFLAGS) $(TARGET_CFLAGS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)" \
-	$(MAKE) -C $(PKG_BUILD_DIR) $(MAKE_FLAGS) $(MAKE_ALFRED_FLAGS) all
-endef
 
 define Package/alfred-devel/install
 	$(INSTALL_DIR) $(1)/usr/sbin
