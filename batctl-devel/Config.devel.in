@@ -2,7 +2,7 @@ choice
 	depends on PACKAGE_batctl-devel
 
 	prompt "Build variant"
-	default default
+	default batctl-devel_default
 
 	config batctl-devel_tiny
 		bool "tiny"
