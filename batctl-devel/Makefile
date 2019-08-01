@@ -89,6 +89,7 @@ config-n := \
 	claimtable \
 	dat_cache \
 	distributed_arp_table \
+	elp_interval \
 	event \
 	fragmentation \
 	gateways \
@@ -110,6 +111,7 @@ config-n := \
 	routing_algo \
 	statistics \
 	tcpdump \
+	throughput_override \
 	throughputmeter \
 	traceroute \
 	transglobal \
@@ -122,6 +124,7 @@ config-settings := \
 	bonding \
 	bridge_loop_avoidance \
 	distributed_arp_table \
+	elp_interval \
 	fragmentation \
 	gw_mode \
 	hop_penalty \
@@ -134,6 +137,7 @@ config-settings := \
 	network_coding \
 	orig_interval \
 	routing_algo \
+	throughput_override \
 
 config-tables := \
 	backbonetable \
